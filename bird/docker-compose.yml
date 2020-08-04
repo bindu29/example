@@ -1,0 +1,101 @@
+version: '3'
+services:
+  tomcat:
+   container_name: tomcatbird
+   image: 'tomcat:9.0.37-jdk8-openjdk'
+   restart: always
+   ports:
+     - "8222:8080"
+   expose:
+     - "8222"
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.3
+
+  pg10:
+   container_name: birdpost
+   image: 'postgres:10'
+   restart: always
+   ports:
+     - "5222:5432"
+   expose:
+     - "5222"
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.4
+   environment:
+     - POSTGRES_DB=bird35
+     - POSTGRES_PASSWORD=BIRDWelcome@123
+   volumes:
+     - ./BIRD3.5_MainDatabaseScript.sql:/var/lib/postgresql/BIRD3.5_MainDatabaseScript.sql
+     
+
+  rabbit:
+   container_name: rabbitserver
+   hostname: rabbit
+   image: 'rabbitmq:3.6.15-management'
+   restart: always
+   ports:
+     - "6222:5672"
+     - "15222:15672"
+   expose:
+     - "6222"
+     - "15222"
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.5
+
+   environment:
+     - RABBITMQ_DEFAULT_USER=bird
+     - RABBITMQ_DEFAULT_PASS=BIRDWelcome@123
+    
+  clickhouse:
+   container_name: birdstore
+   image: 'yandex/clickhouse-server:19.4'
+   restart: always
+   ports:
+     - "9222:8123"
+     - "9000:9000"
+   expose:
+     - "9222"
+     - "9000"
+  
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.6
+
+
+  datahandler:
+   container_name: birdhandler
+   image: 'tomcat:9.0.37-jdk8-openjdk'
+   restart: always
+   ports:
+     - "8888:8080"
+     - "5003:5003"
+   expose:
+     - "5003"
+   entrypoint: ./docker.sh
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.7
+
+  python:
+   container_name: birdinsights
+   image: 'birdsriyam/boc:birdsmartnlp3'
+   restart: always
+   ports:
+     - "8000:8000"
+   expose:
+     - "8000"
+       #networks:
+       #b:
+       #ipv4_address: 10.128.0.8
+
+       #networks:
+       #b:
+       #driver: bridge
+       #ipam:
+       #config:
+       #- subnet: 10.128.0.0/20
+         
+
