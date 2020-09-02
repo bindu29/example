@@ -1,7 +1,7 @@
 #copy property files
-sudo cp ./BirdPropertiesold.properties ./BirdProperties.properties
-sudo cp ./datahandlerpropertiesold.properties ./datahandlerproperties.properties
-sudo cp ./dataschedulerold.properties ./datascheduler.properties
+#sudo cp ./BirdPropertiesold.properties ./BirdProperties.properties
+#sudo cp ./datahandlerpropertiesold.properties ./datahandlerproperties.properties
+#sudo cp ./dataschedulerold.properties ./datascheduler.properties
 
 # copy ip addresses of components 
 read -p "Please Enter IP Address for Tomcat: " tomip
